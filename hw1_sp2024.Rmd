@@ -1,9 +1,9 @@
 ---
 title: " Modern Data Mining, HW 1"
 author:
-- Group Member 1
-- Group Member 2
-- Group Member 3
+- Mahika Calyanakoti
+- Graham Branscom
+- Andrew Raine
 date: 'Due: 11:59PM,  Feb 4th, 2024'
 output:
   html_document:
@@ -101,15 +101,134 @@ Select only the variables Age, Gender, Education Level, Household Income in 2013
 
 Change the variable names to be "age", "gender", "education", "income", "sirius", "wharton", "worktime".
 
+```{r}
+# loading the dataset and renaming selected columns
+survey_data <- read_csv("./data/Survey_results_final.csv") %>% 
+  select(
+    age = Answer.Age,
+    gender = Answer.Gender,
+    education = Answer.Education,
+    income = Answer.HouseHoldIncome,
+    sirius = 'Answer.Sirius Radio',
+    wharton = 'Answer.Wharton Radio',
+    worktime = WorkTimeInSeconds
+  )
+
+# converting categorical variables to factors, and changing age to an integer
+survey_data <- survey_data %>%
+  mutate(
+    age = as.integer(age),
+    gender = as.factor(gender),
+    education = as.factor(education),
+    income = as.factor(income),
+    sirius = as.factor(sirius),
+    wharton = as.factor(wharton)
+  )
+
+head(survey_data)
+```
+
+
 2. Handle missing/wrongly filled values of the selected variables
 
 As in real world data with user input, the data is incomplete, with missing values, and has incorrect responses. There is no general rule for dealing with these problems beyond “use common sense.” In whatever case, explain what the problems were and how you addressed them. Be sure to explain your rationale for your chosen methods of handling issues with the data. Do not use Excel for this, however tempting it might be.
 
 Tip: Reflect on the reasons for which data could be wrong or missing. How would you address each case? For this homework, if you are trying to predict missing values with regression, you are definitely overthinking. Keep it simple.
 
+
+### How we handled missing values.
+We first filtered the dataset to see how many rows have at least one NA value. Since there are 1763 rows and only 20 problematic rows, a mere ~1% of all data, we opted to just drop them. In this case, it is not worth the challenge to predict missing values using regression.
+
+```{r}
+# filter for rows that contain at least one NA value
+rows_with_na <- (survey_data[apply(survey_data, 1, function(x) any(is.na(x))),])
+print(rows_with_na)
+# drop the NA rows (~1% of total data)
+survey_data <- na.omit(survey_data)
+# check the na rows again
+rows_with_na <- (survey_data[apply(survey_data, 1, function(x) any(is.na(x))),])
+print(rows_with_na)
+
+# filter for rows with age < 110
+survey_data <- survey_data %>% filter(age < 110)
+```
+
+
 3. Brief summary 
 
 Write a brief report to summarize all the variables collected. Include both summary statistics (including sample size) and graphical displays such as histograms or bar charts where appropriate. Comment on what you have found from this sample. (For example - it's very interesting to think about why would one work for a job that pays only 10cents/each survey? Who are those survey workers? The answer may be interesting even if it may not directly relate to our goal.)
+
+```{r}
+# a rough view of the dataset
+cat("Data structure:\n")
+survey_data %>% str()
+# 1746 samples with 7 attributes
+cat("\nData dimensions:\n")
+dim(survey_data)
+# summary statistics 
+cat("\nData Summary:\n")
+survey_data %>% summary()
+```
+
+```{r}
+# Reordering the levels of the 'education' factor
+survey_data$education <- factor(survey_data$education, levels = c(
+  "Less than 12 years; no high school diploma",
+  "High school graduate (or equivalent)",
+  "Some college, no diploma; or Associate’s degree",
+  "Bachelor’s degree or other 4-year degree",
+  "Graduate or professional degree",
+  "Other"
+))
+# Bar chart for Education
+survey_data_filtered <- survey_data %>%
+  filter(education != "select one")
+ggplot(survey_data_filtered, aes(x = education, fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Education Level by Gender", x = "Education Level", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Bar chart for Income
+# Reordering the levels of the 'income' factor
+survey_data$income <- factor(survey_data$income, levels = c(
+  "Less than $15,000",
+  "$15,000 - $30,000",
+  "$30,000 - $50,000",
+  "$50,000 - $75,000",
+  "$75,000 - $150,000",
+  "Above $150,000"
+))
+ggplot(survey_data, aes(x = income, fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Income by Gender", x = "Income Level", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Bar chart for Sirius
+ggplot(survey_data, aes(x = sirius, fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Sirius Listeners by Gender", x = "Sirius Listener", y = "Count") +
+  theme_minimal()
+
+# Bar chart for Wharton
+ggplot(survey_data, aes(x = wharton, fill = gender)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Wharton Listeners by Gender", x = "Wharton Listener", y = "Count") +
+  theme_minimal()
+
+
+# Creating a scatterplot of age against worktime, color-coded by gender
+ggplot(survey_data, aes(x = age, y = worktime, color = gender)) +
+  geom_point() +
+  labs(title = "Scatterplot of Age vs Worktime by Gender",
+       x = "Age",
+       y = "Worktime") +
+  theme_minimal()
+```
+
+
+
 
 ## Sample properties
 
