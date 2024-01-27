@@ -218,25 +218,52 @@ ggplot(survey_data, aes(x = wharton, fill = gender)) +
   theme_minimal()
 
 
-# Creating a scatterplot of age against worktime, color-coded by gender
+# Creating a scatterplot of age against worktime, color-coded by gender and sized by income
 ggplot(survey_data, aes(x = age, y = worktime, color = gender)) +
   geom_point() +
-  labs(title = "Scatterplot of Age vs Worktime by Gender",
+  labs(title = "Scatterplot of Age vs Worktime by Gender and Income",
        x = "Age",
        y = "Worktime") +
   theme_minimal()
+
+#Education vs income
+ggplot(survey_data, aes(x = education, fill = income)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Income based on education", x = "Education level", y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ```
 
 
+### Comments from visualizations
+The education level follows roughly a normal distribution, where most respondents' education level was some college or a bachelor's degree. This pattern was the same across both genders.
 
+The income level among females was moreso a normal distribution compared to that of the men. The females centered around \$30-50k, whereas the males plateaued from \$15-30k to \$75-150k. Thus, the men are more represented among the higher income brackets. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents), which suggests that these survey workers were motivated by the 10 cent incentive because they have an income lower than the mean household income in the US.
+
+Additionally, most respondents were Sirius listeners (\frac{1348}{1742}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1742}).
+
+The age of listeners was concentrated around 20 to 40, and worktime was concentrated under 30 hours. These trends were similar across both genders. There are some notable outliers, like the 4 year-old respondent, a 76 year-old respondent and someone with a worktime of 108.
+
+In our income vs education graph, as the education level increases, the median income level tends to shift from right to left (from lower to higher income).
 
 ## Sample properties
 
 The population from which the sample is drawn determines where the results of our analysis can be applied or generalized. We include some basic demographic information for the purpose of identifying sample bias, if any exists. Combine our data and the general population distribution in age, gender and income to try to characterize our sample on hand.
 
-1. Does this sample appear to be a random sample from the general population of the USA? Why it is crucial to have randomness here? 
+1. Does this sample appear to be a random sample from the general population of the USA? Why it is crucial to have randomness here?
+
+Overall, the data is not very representitive of the general US population.
+
+Our data is majority male (1004 male, 738 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (612), which is representiative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1348}{1742}), which is not representative for the overall US population. \\
+
+It is crucial to have randomness here because if we want to use this survey to inform how the radio show markets to audiences or use this data to inform other radio shows, it is crucial to have data that mimics the overall US.
 
 2. Does this sample appear to be a random sample from the MTURK population?
+
+Overall, the sample does not appear to be a completely random sample of the MTURK population. The survey respondents are younger (median 28 years-old) than the MTURK population (median ~50-59 years-old). We have majority male (~58%), whereas MTURK is majority female (~58%). The MTURK population has a higher representation of higher income brackets compared to our data. For instance, two of the most common income brackets among the MTURK population is \$50-60k and \$100-150k.
+
+We used the following link for MTURK population demographics data: (https://www.cloudresearch.com/resources/blog/who-uses-amazon-mturk-2020-demographics/).
 
 Note: You can not provide evidence by simply looking at our data here. For example, you need to find distribution of education in our age group in US to see if the two groups match in distribution. You may need to gather some background information about the MTURK population to have a slight sense if this particular sample seem to a random sample from there... Please do not spend too much time gathering evidence. 
 
@@ -246,11 +273,22 @@ Give a final estimate of the Wharton audience size by May of 2014. Assume that t
 
 To be specific, you should include:
 
-1. Goal of the study
-2. Method used: data gathering, estimation methods
-3. Findings
-4. Limitations of the study. 
+###1. Goal of the study
+The goal of the study is to estimate the audience size for Wharton Business Radio on the Sirius radio station using the results from an MTURK survey of under 2000 respondents in May 2014. We also aimed to collect demographic information about the survey respondents and see the relationship between the demographic variables.
 
+###2. Method used: data gathering, estimation methods
+We used an Amazon MTURK survey to gather data. We then used na.omit() to clean the data and then removed outliers. We also cleaned the data by converting to the factor data type to categorize the data. We made histograms and scatterplots to see the relationship between variables like education vs. income. We also used ggplot() and functions like summary() to visualize and summarize the data.
+
+For estimation methods, we used proportional estimation to predict the total population. To estimate the total audience size in May 2014, we multiply the total number of Sirius Radio listeners (given to be 51.6 million) by $p$, where $p$ is the proportion of Wharton listeners to the total number of survey respondents. According to the data summary above, there are 1348 respondents who listen to Sirius (after filtering for NAs and outliers), only 70 of which said that they are Wharton listeners. Thus $p=\frac{70}{1348}$. So the total number of Wharton listeners equals 51.6 million times $\frac{1672}{1742}$, which is 2,679,525 Wharton listeners.
+
+###3. Findings
+We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners (\frac{1348}{1742}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1742}).
+
+###4. Limitations of the study.
+
+The main limitation of the study was that it was not representative of the US and MTURK populations. Additionally, the median age is 28, but the median age in the US is 38 years-old. For instance, we have majority male (~58%), whereas MTURK is majority female (~58%). Similar differences were seen for the other variables like education and income. This is a limitation because we want our survey data to be able to represent the overall populations so that we can better understand who the radio audience is.
+
+The survey itself is also limited because it does not ask other information like how often they listen, how long they listen to shows, how long they have been listening to the radio, etc. The survey could also collect info on how the respondents would rate their experience listening to the Wharton Business Radio show and the radio in general.
 
 ## New task
 
