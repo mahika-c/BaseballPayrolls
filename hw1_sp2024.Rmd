@@ -292,19 +292,26 @@ The survey itself is also limited because it does not ask other information like
 
 ## New task
 
-Now suppose you are asked to design a study to estimate the audience size of Wharton Business Radio Show as of today: You are given a budget of $1000. You need to present your findings in two months. 
+We are asked to design a study to estimate the audience size of Wharton Business Radio Show as of today. We are given a budget of $1000 and need to present your findings in two months. Here is our methodology.
 
-Write a proposal for this study which includes:
-
-1. Method proposed to estimate the audience size.
-2. What data should be collected and where it should be sourced from. (Can we use ChatGPT to get us a rough estimate?)
-
-Please fill in the google form to list your platform where surveys will be launched and collected [HERE](https://forms.gle/8SmjFQ1tpqr6c4sa8) 
-
-
-A good proposal will give an accurate estimation with the least amount of money used. 
-
-
+### 1. Method proposed to estimate the audience size.
+#### Survey Platform:
+We plan to use the Prolific survey distribution website, which thoroughly vets its respondents using their IDs. This mitigates the issue of fake large language model responses that we have observed in previous surveys using MTurk, which has a lower bar for respondent entry.
+#### Survey Demographic Filtering:
+We plan to use Prolific's option of getting a high quality, nationally representative sample of responses. [Here is their article about the feature](https://researcher-help.prolific.com/hc/en-gb/articles/360019236753-Representative-samples#:~:text='ve%20tested%E2%80%9D.-,How%20does%20Prolific's%20representative%20samples%20tool%20work%3F,%3A%20age%2C%20sex%20and%20ethnicity.), which compares their sample population with that of the US Census and other large-scale surveys. 
+#### Target Sample Size:
+Given our budget of \$1000, an estimated survey completion time of 1 minute, and a target hourly rate of \$10/hour/respondent, our estimated maximum number of responses is $\frac{1000}{10/60}=6000$. We can iteratively collect and analyze the responses until we have a USA representative sample size; the representation validity check is outlined below. By iteratively collecting and analyzing, we can minimize the costs required to accurately estimate the viewership population.
+#### Data to Collect:
+- Whether the respondent listens to the Wharton Business Radio Show.
+- The respondent's sex.
+- The respondent's age.
+- The respondent's race.
+#### Data Integrity Checks:
+After compiling all survey responses, we can 
+1. Calculate the sex, age, and race distributions for our 6000 samples.
+2. Calculate the sex, age, and race distributions for the publicly available US Census dataset.
+3. Check if those our sample distributions match that of the US Census. If not, we may randomly sub-sample our sample dataset to match the distribution of the broader USA. An example: say our data is skewed towards an older population than the US census. We may compute the proportion of the population in each year bracket from the Census data, then randomly subsample our own dataset to match that distribution.
+4. Compute the proportion of our sample that watches the Wharton Business Radio Show, and then multiply it by the number of people in the USA to arrive at our final estimate.
 
 
 
