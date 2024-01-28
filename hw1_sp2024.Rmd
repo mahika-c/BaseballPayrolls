@@ -325,37 +325,261 @@ Notice the data came in as an Excel file. We need to use the package `readxl` an
 
 a). Read the data into R.
 
+```{r}
+# read in the excel file using readxl package
+wsci <- read_excel("./data/WomenData_06_16.xlsx")
+# inspect the column names and first few rows of the table
+names(wsci)
+head(wsci)
+```
+
+
 b). Clean the names of each variables. (Change variable names to  `Field`,`Degree`, `Sex`, `Year` and `Number` )
 
+```{r}
+#change names of the Field and Number columns
+wsci %<>% 
+  rename(Field = 'Field and sex') %<>%
+  rename(Number = 'Degrees Awarded')
+
+# inspect the names of the columns of the data table
+names(wsci)
+# summary(wsci)
+```
+
+
 c). Set the variable natures properly. 
+```{r}
+# set the field, degree and sex as factors
+wsci %<>% 
+  mutate(Field = as.factor(Field)) %<>% 
+  mutate(Degree = as.factor(Degree)) %<>% 
+  mutate(Sex = as.factor(Sex))
+
+# inspect the statistics/dimensions of the data
+summary(wsci)
+dim(wsci)
+```
+
 
 d). Any missing values?
 
+There are no missing/NA values.
+```{r}
+# filter for rows that contain at least one NA value
+rows_with_na <- (wsci[apply(wsci, 1, function(x) any(is.na(x))),])
+print(rows_with_na)
+# drop the NA rows
+wsci <- na.omit(wsci)
+# inspect the number of rows/dimension of the table
+# we had 660 rows before, and after na.omit we still have 660 rows, so no NAs
+dim(wsci)
+```
+
+
 2. Write a summary describing the data set provided here. 
+
+```{r}
+summary(wsci)
+dim(wsci)
+```
+
 
 a). How many fields are there in this data?
 
+There are 10 fields in this data (printed below).
+```{r}
+# print out all of the levels/categories in the Field column
+levels(wsci$Field)
+# count the number of levels/categories in the Field column
+num_fields <- length(levels(wsci$Field))
+print(num_fields)
+```
+
+
 b). What are the degree types? 
+
+There are 3 degree types: BS, MS, PhD.
+
+```{r}
+# print out all of the levels/categories in the Degree column
+levels(wsci$Degree)
+# count the number of levels/categories in the Degree column
+num_degrees <- length(levels(wsci$Degree))
+print(num_degrees)
+```
 
 c). How many year's statistics are being reported here? 
 
+There are 11 unique years. (2006 to 2016 contains 11 unique years)
 
+```{r}
+# count the number of unique years in the Year column and print out
+unique_years <- unique(wsci$Year)
+num_unique_years <- length(unique_years)
+print(num_unique_years)
+```
 
 ## BS degrees in 2015
 
 Is there evidence that more males are in science-related fields vs `Non-S&E`? Provide summary statistics and a plot which shows the number of people by gender and by field. Write a brief summary to describe your findings.
 
+
+
+```{r}
+wsci %>%  # to get the average number of ppl by gender
+  group_by(Field, Sex) %>%
+  summarise(deg = mean(Number))
+
+# Observing the summary data below, we can see each pair of rows correspond
+# to a specific Field, where the first row is number of Females in that field
+# and the second row is the number of males in that field.
+```
+
+Based on the plot below, we can see the following:
+
+Visualization 1: Females by far dominate in the Non S&E category, while males are slightly more represented when evaluating the S&E category.
+
+```{r}
+# making plot: Degrees granted by S&E vs non-S&E by gender
+wsci %>%
+  mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
+  group_by(SE, Sex) %>%
+  summarise(SE_number = sum(Number)) %>%
+  ggplot(aes(x = SE, y = SE_number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme(axis.text.y = element_text(angle = 60)) +
+  ggtitle("Degrees granted by S&E vs non-S&E by gender")
+```
+Based on the plot below, we can see the following:
+
+Visualization 2: Females are the majority (over 60%) of Non S&E jobs pretty consistently across the years, and have been taking an even greater proportion in recent years (upwards trend in 2014-2016). However, they are only a smaller fraction of S&E jobs (below 50%) pretty consistently, and have been even less represented in recent years (downward trend in 2014-2016).
+
+```{r}
+# making plot: Female proportion in SE/non-SE across year
+wsci %>%
+  mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
+  group_by(SE, Sex, Year) %>%
+  summarise(SE_number = sum(Number)) %>%
+  group_by(SE, Year) %>%
+  mutate(ratio = SE_number / sum(SE_number)) %>%
+  filter(Sex == "Female") %>%
+  ggplot(aes(x = Year, y = ratio, color = SE)) +
+  geom_point() + geom_line() +
+  ggtitle("Female proportion in SE/non-SE across year")
+```
+
+
 ## EDA bringing type of degree, field and gender in 2015
 
+Based on the plot below, we can see the following:
+
+Visualization 3: Males are more represented in the computer science and engineering fields, where as females are more represented in the Non S&E fields. Females are higher in fields like psychology and social science.
+
+```{r}
+# making plot: Degrees granted across fields by degree and gender, only looking at 2015 data
+wsci %>%
+  filter(Year == 2015) %>%
+  ggplot(aes(x = Field, y = Number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(Degree~., scales = "free_y") +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
+  ggtitle("Degrees granted across fields by degree and gender") 
+```
+
+
 Describe the number of people by type of degree, field, and gender. Do you see any evidence of gender effects over different types of degrees? Again, provide graphs to summarize your findings.
+
+Based on the plot below, we can see the following:
+
+Visualization 4: In the BS category for Non S&E fields, we see an much steeper upwards trend in females when compared to males, which suggested there is increasingly  more female representation in Non S&E fields. The upwards trends for BS in S&E fields seems relatively alike. In the masters category, there is a dominance of females in the Non S&E fields, whereas for masters in S&E fields, we see the males overpowering increasingly, especially in recent years. In the PhD category, we see very consistent trends over time where females have more Non S&E PhDs, where as the males are more in the S&E PhD category.
+
+```{r}
+# making plot: Degrees granted by sex, degree and SE
+# Describes the number of people by type of degree, field, and gender
+wsci %>%
+  mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
+  group_by(SE, Sex, Year, Degree) %>%
+  summarise(SE_number = sum(Number)) %>%
+  ggplot(aes(x = Year, y = SE_number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(SE~Degree, scales = "free_y") +
+  ggtitle("Degrees granted by sex, degree and SE")
+```
+
+
+Based on the two plots below, we can see the following:
+
+Visualization 5: As the type of degree becomes higher and higher in education level, we see less ratio of females in S&E degrees across the years. In recent years, the gap between the ratio of females in non S&E jobs and the ratio of females in S&E jobs is widening. For instance, in Masters in S&E degrees from 2014-2016 we see a downwards trend. The least stable trend over the years is the ratio of females in Non S&E PhDs, which has shown a lot of fluctuation, but shows an upwards trend in recent years.
+
+Visualization 6: We can see that in all of the Non S&E categories, we have a higher percentage of females, where as the opposite is true (males dominate, except for in BS which is almost 50/50 split) in the S&E categories across degree type
+
+```{r}
+# making plot: Female proportion in SE/non-SE across year by degree
+wsci %>%
+  mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
+  group_by(SE, Sex, Year, Degree) %>%
+  summarise(SE_number = sum(Number)) %>%
+  group_by(SE, Year, Degree) %>%
+  mutate(ratio = SE_number / sum(SE_number)) %>%
+  filter(Sex == "Female") %>%
+  ggplot(aes(x = Year, y = ratio, color = SE)) +
+  geom_point() + geom_line() +
+  facet_grid(~Degree)+
+  ggtitle("Female proportion in SE/non-SE across year by degree")
+```
+```{r}
+# making plot: Degrees granted proportion by sex across degree and SE
+wsci %>%
+  mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
+  group_by(SE, Sex, Year, Degree) %>%
+  summarise(SE_number = sum(Number)) %>%
+  ggplot(aes(x = Year, y = SE_number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "fill") +
+  facet_grid(SE~Degree, scales = "free_y") +
+  ggtitle("Degrees granted proportion by sex across degree and SE")
+```
+
 
 ## EDA bring all variables 
 
 In this last portion of the EDA, we ask you to provide evidence numerically and graphically: Do the number of  degrees change by gender, field, and time? 
 
+TODO: include analysis here
+
+Visualization 7:
+
+```{r}
+# EDA bringing in all variables
+# TODO: fix Y axis overlap
+wsci %>%
+  ggplot(aes(x = Year, y = Number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(Field ~ Degree, scales = "free_y") +
+  ggtitle("Degrees granted proportion by sex across degree and SE") +
+  theme(strip.text.y = element_text(angle = 0, hjust = 1),
+        axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text.y = element_text(hjust = 0.5))
+
+```
+
+
 ## Women in Data Science
 
 Finally, is there evidence showing that women are underrepresented in data science? Data science is an interdisciplinary field of computer science, math, and statistics. You may include year and/or degree.
+
+Visualization 8: We see that there are significantly more males in the first row (computer science) as well as in the second row (math/stats). For example, the BS in CS in 2016 shows over 50000 males and only 10000 females. This underrepresentation seems to be exacerbated in recent years, as the number of males in these two fields is increasing more rapidly than the number of females. The greatest degree of underrepresentation is seen in the BS and MS categories for the CS field. This underrepresentation is also seen in the PhD categories for both CS and math/stats.
+
+```{r}
+# making plot: Degrees granted pr option by sex across degree and SE, including year and degree
+wsci %>%
+  filter(Field %in% c("Computer sciences", "Mathematics and statistics")) %>%
+  ggplot(aes(x = Year, y = Number, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_grid(Field~Degree, scales = "free_y") +
+  ggtitle("Degrees granted pr option by sex across degree and SE")
+```
+
 
 ## Final brief report
 
