@@ -149,14 +149,16 @@ survey_data <- na.omit(survey_data)
 rows_with_na <- (survey_data[apply(survey_data, 1, function(x) any(is.na(x))),])
 print(rows_with_na)
 
-# filter for rows with age < 110
-survey_data <- survey_data %>% filter(age < 110)
-```
+# filter for rows with 18 <= age < 110
+survey_data <- survey_data %>% filter(age < 110) %>% filter(age >= 18)
+survey_data <- survey_data %>% filter(education != "Other")
 
+```
 
 3. Brief summary 
 
 Write a brief report to summarize all the variables collected. Include both summary statistics (including sample size) and graphical displays such as histograms or bar charts where appropriate. Comment on what you have found from this sample. (For example - it's very interesting to think about why would one work for a job that pays only 10cents/each survey? Who are those survey workers? The answer may be interesting even if it may not directly relate to our goal.)
+
 
 ```{r, echo = FALSE}
 # a rough view of the dataset
@@ -241,7 +243,7 @@ The education level follows roughly a normal distribution, where most respondent
 
 The income level among females was moreso a normal distribution compared to that of the men. The females centered around \$30-50k, whereas the males plateaued from \$15-30k to \$75-150k. Thus, the men are more represented among the higher income brackets. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents), which suggests that these survey workers were motivated by the 10 cent incentive because they have an income lower than the mean household income in the US.
 
-Additionally, most respondents were Sirius listeners (\frac{1348}{1742}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1742}).
+Additionally, most respondents were Sirius listeners (\frac{1345}{1739}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1739}).
 
 The age of listeners was concentrated around 20 to 40, and worktime was concentrated under 30 hours. These trends were similar across both genders. There are some notable outliers, like the 4 year-old respondent, a 76 year-old respondent and someone with a worktime of 108.
 
@@ -255,7 +257,7 @@ The population from which the sample is drawn determines where the results of ou
 
 Overall, the data is not very representative of the general US population.
 
-Our data is majority male (1004 male, 738 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (612), which is representative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1348}{1742}), which is not representative for the overall US population.
+Our data is majority male (1003 male, 736 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (611), which is representative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1345}{1739}), which is not representative for the overall US population.
 
 Data sources: https://www.nytimes.com/2023/06/22/us/census-median-age.html, https://www.census.gov/library/publications/2023/demo/p60-279.html
 
@@ -281,10 +283,10 @@ The goal of the study is to estimate the audience size for Wharton Business Radi
 ###2. Method used: data gathering, estimation methods
 We used an Amazon MTURK survey to gather data. We then used na.omit() to clean the data and then removed outliers. We also cleaned the data by converting to the factor data type to categorize the data. We made histograms and scatterplots to see the relationship between variables like education vs. income. We also used ggplot() and functions like summary() to visualize and summarize the data.
 
-For estimation methods, we used proportional estimation to predict the total population. To estimate the total audience size in May 2014, we multiply the total number of Sirius Radio listeners (given to be 51.6 million) by $p$, where $p$ is the proportion of Wharton listeners to the total number of survey respondents. According to the data summary above, there are 1348 respondents who listen to Sirius (after filtering for NAs and outliers), only 70 of which said that they are Wharton listeners. Thus $p=\frac{70}{1348}$. So the total number of Wharton listeners equals 51.6 million times $\frac{70}{1348}$, which is 2,679,525 Wharton listeners.
+For estimation methods, we used proportional estimation to predict the total population. To estimate the total audience size in May 2014, we multiply the total number of Sirius Radio listeners (given to be 51.6 million) by $p$, where $p$ is the proportion of Wharton listeners to the total number of survey respondents. According to the data summary above, there are 1348 respondents who listen to Sirius (after filtering for NAs and outliers), only 70 of which said that they are Wharton listeners. Thus $p=\frac{70}{1345}$. So the total number of Wharton listeners equals 51.6 million times $\frac{70}{1345}$, which is 2,679,525 Wharton listeners.
 
 ###3. Findings
-We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners (\frac{1348}{1742}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1742}).
+We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners (\frac{1345}{1739}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1739}).
 
 ###4. Limitations of the study.
 
