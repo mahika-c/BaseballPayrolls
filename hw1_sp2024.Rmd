@@ -253,9 +253,11 @@ The population from which the sample is drawn determines where the results of ou
 
 1. Does this sample appear to be a random sample from the general population of the USA? Why it is crucial to have randomness here?
 
-Overall, the data is not very representitive of the general US population.
+Overall, the data is not very representative of the general US population.
 
-Our data is majority male (1004 male, 738 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (612), which is representiative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1348}{1742}), which is not representative for the overall US population. \\
+Our data is majority male (1004 male, 738 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (612), which is representative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1348}{1742}), which is not representative for the overall US population.
+
+Data sources: https://www.nytimes.com/2023/06/22/us/census-median-age.html, https://www.census.gov/library/publications/2023/demo/p60-279.html
 
 It is crucial to have randomness here because if we want to use this survey to inform how the radio show markets to audiences or use this data to inform other radio shows, it is crucial to have data that mimics the overall US.
 
@@ -431,6 +433,8 @@ print(num_unique_years)
 
 Is there evidence that more males are in science-related fields vs `Non-S&E`? Provide summary statistics and a plot which shows the number of people by gender and by field. Write a brief summary to describe your findings.
 
+Yes, there is evidence that there are more males in science related fields. We provide summary statistics and plots showing gender vs field in the below analysis, along with a summary of the findings under that. First, we do some grouping to show the frequency of each gender for each field in a table:
+
 
 
 ```{r}
@@ -443,9 +447,9 @@ wsci %>%  # to get the average number of ppl by gender
 # and the second row is the number of males in that field.
 ```
 
-Based on the plot below, we can see the following:
+Based on the plot below which shows the results of the frequency of each gender for S&E vs Non S&E fields, we can see the following:
 
-Visualization 1: Females by far dominate in the Non S&E category, while males are slightly more represented when evaluating the S&E category.
+Visualization 1: Females by far dominate in the Non S&E category, while males are slightly more represented when evaluating the S&E category. This provides evidence that more males are in science-related fields vs `Non-S&E`.
 
 ```{r}
 # making plot: Degrees granted by S&E vs non-S&E by gender
@@ -479,9 +483,9 @@ wsci %>%
 
 ## EDA bringing type of degree, field and gender in 2015
 
-Based on the plot below, we can see the following:
+Based on the plot below that shows the frequency of each gender for each field, we can see the following:
 
-Visualization 3: Males are more represented in the computer science and engineering fields, where as females are more represented in the Non S&E fields. Females are higher in fields like psychology and social science.
+Visualization 3: Males are more represented in the computer science and engineering fields, where as females are more represented in the Non S&E fields. Females are higher in fields like psychology and social science. For instance, in Engineering PhDs, males have 7500 degrees, whereas females have just 2500 degrees; in contrast, in Non S&E PhD degrees, males have just over 10000 degrees whereas females have way more: 17500 degrees.
 
 ```{r}
 # making plot: Degrees granted across fields by degree and gender, only looking at 2015 data
@@ -497,7 +501,7 @@ wsci %>%
 
 Describe the number of people by type of degree, field, and gender. Do you see any evidence of gender effects over different types of degrees? Again, provide graphs to summarize your findings.
 
-Based on the plot below, we can see the following:
+Based on the plot below that shows the number of people by type of degree, field, and gender, we can see the following:
 
 Visualization 4: In the BS category for Non S&E fields, we see an much steeper upwards trend in females when compared to males, which suggested there is increasingly  more female representation in Non S&E fields. The upwards trends for BS in S&E fields seems relatively alike. In the masters category, there is a dominance of females in the Non S&E fields, whereas for masters in S&E fields, we see the males overpowering increasingly, especially in recent years. In the PhD category, we see very consistent trends over time where females have more Non S&E PhDs, where as the males are more in the S&E PhD category.
 
@@ -517,9 +521,9 @@ wsci %>%
 
 Based on the two plots below, we can see the following:
 
-Visualization 5: As the type of degree becomes higher and higher in education level, we see less ratio of females in S&E degrees across the years. In recent years, the gap between the ratio of females in non S&E jobs and the ratio of females in S&E jobs is widening. For instance, in Masters in S&E degrees from 2014-2016 we see a downwards trend. The least stable trend over the years is the ratio of females in Non S&E PhDs, which has shown a lot of fluctuation, but shows an upwards trend in recent years.
+Visualization 5 (Female proportion in SE/non-SE across year by degree): As the type of degree becomes higher and higher in education level, we see less ratio of females in S&E degrees across the years. In recent years, the gap between the ratio of females in non S&E jobs and the ratio of females in S&E jobs is widening. For instance, in Masters in S&E degrees from 2014-2016 we see a downwards trend. The least stable trend over the years is the ratio of females in Non S&E PhDs, which has shown a lot of fluctuation, but shows an upwards trend in recent years.
 
-Visualization 6: We can see that in all of the Non S&E categories, we have a higher percentage of females, where as the opposite is true (males dominate, except for in BS which is almost 50/50 split) in the S&E categories across degree type
+Visualization 6 (Degrees granted proportion by sex across degree and SE): We can see that in all of the Non S&E categories, we have a higher percentage of females, where as the opposite is true (males dominate, except for in BS which is almost 50/50 split) in the S&E categories across degree type
 
 ```{r}
 # making plot: Female proportion in SE/non-SE across year by degree
@@ -550,15 +554,26 @@ wsci %>%
 
 ## EDA bring all variables 
 
-In this last portion of the EDA, we ask you to provide evidence numerically and graphically: Do the number of  degrees change by gender, field, and time? 
+In this last portion of the EDA, we ask you to provide evidence numerically and graphically: Do the number of degrees change by gender, field, and time? 
 
-TODO: include analysis here
+Visualization 7 and accompanying table: This visualization and the table brings together all of the variables: number of degrees, gender, field, and shows the change in these variables over time to analyze how the number of degrees per field per gender changes every year. We can see a stronger increase (steeper positive slope) in some of these variables. For example, in the Non S&E category, there is a steeper increase in the number of females with that degree than males (In 2006, Males had 194026, whereas females had 315403. Males in 2016 had 239338 degrees, Females in 2016 had 393899. We see a greater increase in females with this degree). We also see in the CS and Engineering fields for the masters degree, the males have a much greater rate of growth than the females over time. For some variables, the number of degrees don't change much over time in terms of gender and field, such as many of the PhD fields (agricultural science, CS, Non S&E, etc.). The strongest increases/changes can be seen in categories like CS and Engineering for Males in the BS type degree, whereas the increase in females for that degree is much less steep and looks rather flat. These are some of the trends we see in this final EDA where we compare all variables over time form 2006 to 2016.
 
-Visualization 7:
+```{r}
+# shows a summary of the data in the table again to see the medians/averages/frequencies of different variables
+summary(wsci)
+dim(wsci)
+
+# this table shows how the number of degrees per field for each gender changes over time
+table_data <- wsci %>%
+  group_by(Field, Sex, Year) %>%
+  summarise(deg = mean(Number), .groups = "drop") %>%
+  arrange(Field, Sex, Year)
+table_data
+```
+
 
 ```{r}
 # EDA bringing in all variables
-# TODO: fix Y axis overlap
 wsci %>%
   ggplot(aes(x = Year, y = Number, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -570,27 +585,40 @@ wsci %>%
 
 ```
 
-
 ## Women in Data Science
 
 Finally, is there evidence showing that women are underrepresented in data science? Data science is an interdisciplinary field of computer science, math, and statistics. You may include year and/or degree.
 
-Visualization 8: We see that there are significantly more males in the first row (computer science) as well as in the second row (math/stats). For example, the BS in CS in 2016 shows over 50000 males and only 10000 females. This underrepresentation seems to be exacerbated in recent years, as the number of males in these two fields is increasing more rapidly than the number of females. The greatest degree of underrepresentation is seen in the BS and MS categories for the CS field. This underrepresentation is also seen in the PhD categories for both CS and math/stats.
+Visualization 8: We included both year and degree in our chart. We see that there are significantly more males in the first row (computer science) as well as in the second row (math/stats). For example, the BS in CS in 2016 shows over 50000 males and only 10000 females. This underrepresentation seems to be exacerbated in recent years, as the number of males in these two fields is increasing more rapidly than the number of females. The greatest degree of underrepresentation is seen in the BS and MS categories for the CS field. This underrepresentation is also seen in the PhD categories for both CS and math/stats.
 
 ```{r}
-# making plot: Degrees granted pr option by sex across degree and SE, including year and degree
+# making plot: Degrees granted by sex across degree and SE, including year and degree
 wsci %>%
   filter(Field %in% c("Computer sciences", "Mathematics and statistics")) %>%
   ggplot(aes(x = Year, y = Number, fill = Sex)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_grid(Field~Degree, scales = "free_y") +
-  ggtitle("Degrees granted pr option by sex across degree and SE")
+  ggtitle("Degrees granted by sex across degree and SE")
 ```
 
 
 ## Final brief report
 
 Summarize your findings focusing on answering the questions regarding if we see consistent patterns that more males pursue science-related fields. Any concerns with the data set? How could we improve on the study?
+
+DATA: The data seen in the study, called `WomenData_06_16.xlsx` from [NSF](https://ncses.nsf.gov/pubs/nsf19304/digest/field-of-degree-women) provides information from the years 2006 to 2016, specifically in the US. It contains data about the number of degrees in specific fields, for specific types of degrees (BS, MS, PhD), by gender, and shows these trends by containing information about the number of degrees granted across these 11 years.
+
+GOAL OF THE STUDY: The question at hand was to see if women were underrepresented in certain fields, namely in science/engineering fields. The analysis explores how there might be different trends in the types of degrees pursued based on gender over the years.
+
+METHODS: This case study utilizes EDA (Exploratory Data Analysis) to collect summary statistics (like mean, median, standard deviation, frequency, etc. across variables). We use grouping to analyze the data, specifically using factor data-type columns for this analysis. We also use the year column to analyze trends over time.
+
+FINDINGS: Our analysis found evidence that suggests that women are indeed underrepresented in S&E categories over time. The disparity seems to be increasing rather than diminishing in the recent years. In higher degree types, such as masters and PhD, we continue to see this divide where men are more represented in S&E fields in this degree type. Over the years, in S&E fields, we see stronger increases/steeper positive slopes for men whereas the number of females with those degrees appears to be considerably more stagnant.
+
+We saw that in all of the Non S&E categories, we have a higher percentage of females, where as the opposite is true (males dominate, except for in BS which is almost 50/50 split) in the S&E categories across degree type. Males are more represented in the computer science and engineering fields, where as females are more represented in the Non S&E fields. Females are higher in fields like psychology and social science. For instance, in Engineering PhDs, males have 7500 degrees, whereas females have just 2500 degrees; in contrast, in Non S&E PhD degrees, males have just over 10000 degrees whereas females have way more: 17500 degrees.
+
+These trends show that over time, we have seen an increase in males in science and engineering degrees, such as math and statistics, while females tend to be underrepresented in these fields especially in higher degrees such as MS and PhD when analyzing the data over time from 2006 to 2016.
+
+WAYS TO IMPROVE: The data set is actually very fair and minimally biased in terms of the data collected. There are 330 females and 330 males, and the number of data points collected per fields are all 66, and the number of data points collected per degree type was also 220 for each BS, MS, and PhD. In this way, the data doesn't seem to be skewed one way or another. The study can be improved by analyzing data over a longer period of time, and also by collecting more recent data. The data can include some more variables, such as information about people dropping out of degrees, and potentially can be extended to analyze salary/pay by gender based on the degree field/type that the person received. This might show more robust results and analyses.
 
 ## Appendix
 
