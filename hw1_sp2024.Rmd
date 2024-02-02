@@ -101,7 +101,7 @@ Select only the variables Age, Gender, Education Level, Household Income in 2013
 
 Change the variable names to be "age", "gender", "education", "income", "sirius", "wharton", "worktime".
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE, message=FALSE}
 # loading the dataset and renaming selected columns
 survey_data <- read_csv("./data/Survey_results_final.csv") %>% 
   select(
@@ -139,7 +139,7 @@ Tip: Reflect on the reasons for which data could be wrong or missing. How would 
 ### How we handled missing values.
 We first filtered the dataset to see how many rows have at least one NA value. Since there are 1763 rows and only 20 problematic rows, a mere ~1% of all data, we opted to just drop them. In this case, it is not worth the challenge to predict missing values using regression.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE}
 # filter for rows that contain at least one NA value
 rows_with_na <- (survey_data[apply(survey_data, 1, function(x) any(is.na(x))),])
 print(rows_with_na)
@@ -277,18 +277,18 @@ Give a final estimate of the Wharton audience size by May of 2014. Assume that t
 
 To be specific, you should include:
 
-###1. Goal of the study
+### 1. Goal of the study
 The goal of the study is to estimate the audience size for Wharton Business Radio on the Sirius radio station using the results from an MTURK survey of under 2000 respondents in May 2014. We also aimed to collect demographic information about the survey respondents and see the relationship between the demographic variables.
 
-###2. Method used: data gathering, estimation methods
+### 2. Method used: data gathering, estimation methods
 We used an Amazon MTURK survey to gather data. We then used na.omit() to clean the data and then removed outliers. We also cleaned the data by converting to the factor data type to categorize the data. We made histograms and scatterplots to see the relationship between variables like education vs. income. We also used ggplot() and functions like summary() to visualize and summarize the data.
 
 For estimation methods, we used proportional estimation to predict the total population. To estimate the total audience size in May 2014, we multiply the total number of Sirius Radio listeners (given to be 51.6 million) by $p$, where $p$ is the proportion of Wharton listeners to the total number of survey respondents. According to the data summary above, there are 1348 respondents who listen to Sirius (after filtering for NAs and outliers), only 70 of which said that they are Wharton listeners. Thus $p=\frac{70}{1345}$. So the total number of Wharton listeners equals 51.6 million times $\frac{70}{1345}$, which is 2,679,525 Wharton listeners.
 
-###3. Findings
+### 3. Findings
 We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners (\frac{1345}{1739}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1739}).
 
-###4. Limitations of the study.
+### 4. Limitations of the study.
 
 The main limitation of the study was that it was not representative of the US and MTURK populations. Additionally, the median age is 28, but the median age in the US is 38 years-old. For instance, we have majority male (~58%), whereas MTURK is majority female (~58%). Similar differences were seen for the other variables like education and income. This is a limitation because we want our survey data to be able to represent the overall populations so that we can better understand who the radio audience is.
 
@@ -299,17 +299,22 @@ The survey itself is also limited because it does not ask other information like
 We are asked to design a study to estimate the audience size of Wharton Business Radio Show as of today. We are given a budget of $1000 and need to present your findings in two months. Here is our methodology.
 
 ### 1. Method proposed to estimate the audience size.
+
 #### Survey Platform:
 We plan to use the Prolific survey distribution website, which thoroughly vets its respondents using their IDs. This mitigates the issue of fake large language model responses that we have observed in previous surveys using MTurk, which has a lower bar for respondent entry.
+
 #### Survey Demographic Filtering:
 We plan to use Prolific's option of getting a high quality, nationally representative sample of responses. [Here is their article about the feature](https://researcher-help.prolific.com/hc/en-gb/articles/360019236753-Representative-samples#:~:text='ve%20tested%E2%80%9D.-,How%20does%20Prolific's%20representative%20samples%20tool%20work%3F,%3A%20age%2C%20sex%20and%20ethnicity.), which compares their sample population with that of the US Census and other large-scale surveys. 
+
 #### Target Sample Size:
 Given our budget of \$1000, an estimated survey completion time of 1 minute, and a target hourly rate of \$10/hour/respondent, our estimated maximum number of responses is $\frac{1000}{10/60}=6000$. We can iteratively collect and analyze the responses until we have a USA representative sample size; the representation validity check is outlined below. By iteratively collecting and analyzing, we can minimize the costs required to accurately estimate the viewership population.
+
 #### Data to Collect:
 - Whether the respondent listens to the Wharton Business Radio Show.
 - The respondent's sex.
 - The respondent's age.
 - The respondent's race.
+
 #### Data Integrity Checks:
 After compiling all survey responses, we can 
 1. Calculate the sex, age, and race distributions for our 6000 samples.
@@ -439,7 +444,7 @@ Yes, there is evidence that there are more males in science related fields. We p
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 wsci %>%  # to get the average number of ppl by gender
   group_by(Field, Sex) %>%
   summarise(deg = mean(Number))
@@ -453,7 +458,7 @@ Based on the plot below which shows the results of the frequency of each gender 
 
 Visualization 1: Females by far dominate in the Non S&E category, while males are slightly more represented when evaluating the S&E category. This provides evidence that more males are in science-related fields vs `Non-S&E`.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # making plot: Degrees granted by S&E vs non-S&E by gender
 wsci %>%
   mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
@@ -468,7 +473,7 @@ Based on the plot below, we can see the following:
 
 Visualization 2: Females are the majority (over 60%) of Non S&E jobs pretty consistently across the years, and have been taking an even greater proportion in recent years (upwards trend in 2014-2016). However, they are only a smaller fraction of S&E jobs (below 50%) pretty consistently, and have been even less represented in recent years (downward trend in 2014-2016).
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # making plot: Female proportion in SE/non-SE across year
 wsci %>%
   mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
@@ -507,7 +512,7 @@ Based on the plot below that shows the number of people by type of degree, field
 
 Visualization 4: In the BS category for Non S&E fields, we see an much steeper upwards trend in females when compared to males, which suggested there is increasingly  more female representation in Non S&E fields. The upwards trends for BS in S&E fields seems relatively alike. In the masters category, there is a dominance of females in the Non S&E fields, whereas for masters in S&E fields, we see the males overpowering increasingly, especially in recent years. In the PhD category, we see very consistent trends over time where females have more Non S&E PhDs, where as the males are more in the S&E PhD category.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # making plot: Degrees granted by sex, degree and SE
 # Describes the number of people by type of degree, field, and gender
 wsci %>%
@@ -527,7 +532,7 @@ Visualization 5 (Female proportion in SE/non-SE across year by degree): As the t
 
 Visualization 6 (Degrees granted proportion by sex across degree and SE): We can see that in all of the Non S&E categories, we have a higher percentage of females, where as the opposite is true (males dominate, except for in BS which is almost 50/50 split) in the S&E categories across degree type
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # making plot: Female proportion in SE/non-SE across year by degree
 wsci %>%
   mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
@@ -541,7 +546,7 @@ wsci %>%
   facet_grid(~Degree)+
   ggtitle("Female proportion in SE/non-SE across year by degree")
 ```
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # making plot: Degrees granted proportion by sex across degree and SE
 wsci %>%
   mutate(SE = ifelse(Field!="Non-S&E" , "S&E", "Non-S&E")) %>%
@@ -631,7 +636,7 @@ To help out, we have included some R-codes here as references. You should make y
 ```{r data wrangling, echo = FALSE, warning = FALSE}
 # For the demonstration purpose, we show this R-chunk by taking echo=TRUE
 # In your final report you should hide all the R-chunks to keep your report flowing well.
-wsci <- read_excel("WomenData_06_16.xlsx")
+wsci <- read_excel("./data/WomenData_06_16.xlsx")
 names(wsci)
 head(wsci)
 #change names
@@ -755,7 +760,7 @@ Feel free to use either dataset to address the problems.
 
 Payroll may relate to performance among ML Baseball teams. One possible argument is that what affects this year's performance is not this year's payroll, but the amount that payroll increased from last year. Let us look into this through EDA. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # we chose baseball.csv because it is in the long data format
 baseball <- read_csv("./data/baseball.csv")
 summary(baseball)
@@ -775,7 +780,7 @@ The log difference calculates the percentage change between the two years, so th
 
 b). Create a new variable `diff_log=log(payroll_2013) - log(payroll_2012)`. Hint: use `dplyr::lag()` function.
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # grouping by teams and then performing the log subtraction so that we do not compute the log difference between two different but contiguous teams.
 baseball <- baseball %>%
   group_by(team) %>%
@@ -796,7 +801,7 @@ head(baseball.long)
 ## Exploratory questions
 
 a). Which five teams had highest increase in their payroll between years 2010 and 2014, inclusive?
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 top_five <- baseball %>%
   # filtering and selecting the desired data
   filter(year %in% c(2010, 2014)) %>%
@@ -816,7 +821,7 @@ The five teams with the highest increase in their payroll changes were, in desce
 
 
 b). Between 2010 and 2014, inclusive, which team(s) "improved" the most? That is, had the biggest percentage gain in wins?
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 win_improvement <- baseball.long %>%
   # filtering and selecting the desired data
   filter(year %in% c(2010, 2014)) %>%
@@ -842,7 +847,7 @@ Is there evidence to support the hypothesis that higher increases in payroll on 
 
 Pick up a few statistics, accompanied with some data visualization, to support your answer. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # scatterplot to visualize the relationship between the win percentage and the log payroll increase
 ggplot(baseball.long, aes(x = diff_log, y = win_pct)) +
   geom_point(aes(color = team), alpha = 0.7) +  # Plot points, colored by team
@@ -857,7 +862,7 @@ ggplot(baseball.long, aes(x = diff_log, y = win_pct)) +
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 bball.filtered <- baseball %>% filter(year != 1998)
 
 # same plot as above, except stratified by year
@@ -876,7 +881,7 @@ ggplot(bball.filtered, aes(x = diff_log, y = win_pct)) +
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # a linear regression model for win percentage v. log payroll increase
 model <- lm(win_pct ~ diff_log, data = baseball.long)
 
@@ -902,7 +907,7 @@ Which set of factors are better explaining performance? Yearly payroll or yearly
 
 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # scatterplot to visualize the relationship between the win percentage and the payroll
 ggplot(baseball, aes(x = payroll, y = win_pct)) +
   geom_point(aes(color = team), alpha = 0.7) +  # Plot points, colored by team
@@ -917,7 +922,7 @@ ggplot(baseball, aes(x = payroll, y = win_pct)) +
 
 ```
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 # a linear regression model for win percentage v. payroll
 model <- lm(win_pct ~ payroll, data = baseball)
 
