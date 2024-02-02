@@ -6,10 +6,6 @@ author:
 - Andrew Raine
 date: 'Due: 11:59PM,  Feb 4th, 2024'
 output:
-  pdf_document:
-    number_sections: yes
-    toc: yes
-    toc_depth: '4'
   html_document:
     code_folding: show
     highlight: haddock
@@ -18,6 +14,10 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: '4'
   word_document:
     toc: yes
     toc_depth: '4'
@@ -946,8 +946,6 @@ Based on the explained variance values for payroll versus the log change in payr
 
 
 
-
-
 ### DATA
 We used baseball.csv, which is a data set that contains information about various baseball teams’ payroll and win percentages/win number across time from 1998 to 2014.
 
@@ -959,5 +957,6 @@ We use EDA to analyze the data and the summary of the variables. We also create 
 
 ### FINDINGS
 We found that the five teams with the highest payroll increase were: LA Dodgers, Texas Rangers, Washington Nationals, Toronto Blue Jays, and SF Giants. The following teams had the highest win percentage gain: Pittsburgh Pirates, Baltimore Orioles, Washington Nationals, Seattle Mariners, and Kansas City Royals. We found a positive slope for our best line fit in a scatterplot plotting win percentage against diff_log of payroll for the various teams. We also found a positive slope in the best line of fit for win percentage vs payroll.  When comparing yearly payroll vs yearly increase in payroll, we found that payroll better explained performance since it had a higher R-squared/Explained Variance factor and the data points formed a strong linear relationship, whereas the data points in the payroll increase graph formed more of a cluster-like shape.
+
 ### LIMITATIONS
 Sometimes payroll increase doesn’t mean the same thing for all of the teams. For instance, the NY Yankees are already so good and already have so much money that an increase in some amount of money would look like a small percentage increase, whereas that same amount of money would be a larger percentage for teams with less money. Better teams probably don’t need more money to do well since they are already so good, while worse teams might not be able to be more competitive even if they did gain more money.

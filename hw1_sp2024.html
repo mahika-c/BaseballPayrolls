@@ -1391,111 +1391,6 @@ ul.task-list{list-style: none;}
 
 
 
-<style type="text/css">
-code {
-white-space: pre;
-}
-.sourceCode {
-overflow: visible;
-}
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-color: #aaaaaa;
-}
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; } 
-code span.an { color: #008000; } 
-code span.at { } 
-code span.bu { } 
-code span.cf { color: #0000ff; } 
-code span.ch { color: #008080; } 
-code span.cn { } 
-code span.co { color: #008000; } 
-code span.cv { color: #008000; } 
-code span.do { color: #008000; } 
-code span.er { color: #ff0000; font-weight: bold; } 
-code span.ex { } 
-code span.im { } 
-code span.in { color: #008000; } 
-code span.kw { color: #0000ff; } 
-code span.op { } 
-code span.ot { color: #ff4000; } 
-code span.pp { color: #ff4000; } 
-code span.sc { color: #008080; } 
-code span.ss { color: #008080; } 
-code span.st { color: #008080; } 
-code span.va { } 
-code span.vs { color: #008080; } 
-code span.wa { color: #008000; font-weight: bold; } 
-.sourceCode .row {
-width: 100%;
-}
-.sourceCode {
-overflow-x: auto;
-}
-.code-folding-btn {
-margin-right: -30px;
-}
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -1849,9 +1744,9 @@ commonly chosen income bracket) was $30-50k (424 respondents), which
 suggests that these survey workers were motivated by the 10 cent
 incentive because they have an income lower than the mean household
 income in the US.</p>
-<p>Additionally, most respondents were Sirius listeners () and the
-majority of the Sirius listeners are men. Almost all respondents are not
-Wharton listeners ().</p>
+<p>Additionally, most respondents were Sirius listeners (<span class="math inline">\(\frac{1345}{1739}\)</span>) and the majority of
+the Sirius listeners are men. Almost all respondents are not Wharton
+listeners (<span class="math inline">\(\frac{70}{1739}\)</span>).</p>
 <p>The age of listeners was concentrated around 20 to 40, and worktime
 was concentrated under 30 hours. These trends were similar across both
 genders. There are some notable outliers, like the 4 year-old
@@ -1885,8 +1780,8 @@ US population whose highest education level is a Bachelor’s. The most
 common income level is $30-50k, which is about $20-40k lower than the US
 average. The average worktime is 21.0 hours, which is considerably low
 considering a 9-5 workweek. The vast majority of respondents were Sirius
-listeners ($), which is not representative for the overall US
-population.</p>
+listeners (<span class="math inline">\(\frac{1345}{1739}\)</span>),
+which is not representative for the overall US population.</p>
 <p>Data sources: <a href="https://www.nytimes.com/2023/06/22/us/census-median-age.html" class="uri">https://www.nytimes.com/2023/06/22/us/census-median-age.html</a>,
 <a href="https://www.census.gov/library/publications/2023/demo/p60-279.html" class="uri">https://www.census.gov/library/publications/2023/demo/p60-279.html</a></p>
 <p>It is crucial to have randomness here because if we want to use this
@@ -1960,9 +1855,9 @@ population. Based on the visualizations, we found that the education
 level follows roughly a normal distribution, and the income level among
 females was moreso a normal distribution compared to that of the men.
 The mode (i.e. most commonly chosen income bracket) was $30-50k (424
-respondents). Also, most respondents were Sirius listeners () and the
-majority of the Sirius listeners are men. Almost all respondents are not
-Wharton listeners ().</p>
+respondents). Also, most respondents were Sirius listeners (<span class="math inline">\(\frac{1345}{1739}\)</span>) and the majority of
+the Sirius listeners are men. Almost all respondents are not Wharton
+listeners (<span class="math inline">\(\frac{70}{1739}\)</span>).</p>
 </div>
 <div id="limitations-of-the-study." class="section level3" number="2.3.4">
 <h3><span class="header-section-number">2.3.4</span> 4. Limitations of
@@ -2312,8 +2207,6 @@ between payroll changes and performance</h2>
 possible argument is that what affects this year’s performance is not
 this year’s payroll, but the amount that payroll increased from last
 year. Let us look into this through EDA.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># we chose baseball.csv because it is in the long data format</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>baseball <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;./data/baseball.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 510 Columns: 5
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -2322,8 +2215,6 @@ year. Let us look into this through EDA.</p>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(baseball))</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(baseball))</span></code></pre></div>
 <p>Create increment in payroll a). To describe the increment of payroll
 in each year there are several possible approaches. Take 2013 as an
 example:</p>
@@ -2390,7 +2281,7 @@ about various baseball teams’ payroll and win percentages/win number
 across time from 1998 to 2014.</p>
 </div>
 <div id="goalquestion" class="section level3" number="4.4.2">
-<h3><span class="header-section-number">4.4.2</span> GOAL//QUESTION</h3>
+<h3><span class="header-section-number">4.4.2</span> GOAL/QUESTION</h3>
 <p>We want to explore the relationship between payroll and win
 percentage, versus seeing if analyzing this relationship is better to do
 when calculating the difference in payroll between years rather than the
@@ -2419,14 +2310,18 @@ payroll vs yearly increase in payroll, we found that payroll better
 explained performance since it had a higher R-squared/Explained Variance
 factor and the data points formed a strong linear relationship, whereas
 the data points in the payroll increase graph formed more of a
-cluster-like shape. ### LIMITATIONS Sometimes payroll increase doesn’t
-mean the same thing for all of the teams. For instance, the NY Yankees
-are already so good and already have so much money that an increase in
-some amount of money would look like a small percentage increase,
-whereas that same amount of money would be a larger percentage for teams
-with less money. Better teams probably don’t need more money to do well
-since they are already so good, while worse teams might not be able to
-be more competitive even if they did gain more money.</p>
+cluster-like shape.</p>
+</div>
+<div id="limitations" class="section level3" number="4.4.5">
+<h3><span class="header-section-number">4.4.5</span> LIMITATIONS</h3>
+<p>Sometimes payroll increase doesn’t mean the same thing for all of the
+teams. For instance, the NY Yankees are already so good and already have
+so much money that an increase in some amount of money would look like a
+small percentage increase, whereas that same amount of money would be a
+larger percentage for teams with less money. Better teams probably don’t
+need more money to do well since they are already so good, while worse
+teams might not be able to be more competitive even if they did gain
+more money.</p>
 </div>
 </div>
 </div>
