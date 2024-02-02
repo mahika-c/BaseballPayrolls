@@ -6,6 +6,10 @@ author:
 - Andrew Raine
 date: 'Due: 11:59PM,  Feb 4th, 2024'
 output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: '4'
   html_document:
     code_folding: show
     highlight: haddock
@@ -14,10 +18,6 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: yes
-  pdf_document:
-    number_sections: yes
-    toc: yes
-    toc_depth: '4'
   word_document:
     toc: yes
     toc_depth: '4'
@@ -26,6 +26,7 @@ urlcolor: blue
 
 
 ```{r setup, include=FALSE}
+# tinytex::install_tinytex()
 knitr::opts_chunk$set(echo = FALSE, results = "hide", fig.width=8, fig.height=4)
 options(scipen = 0, digits = 3)  # controls base R output
 # check if you have ISLR package, if not, install it
@@ -243,7 +244,7 @@ The education level follows roughly a normal distribution, where most respondent
 
 The income level among females was moreso a normal distribution compared to that of the men. The females centered around \$30-50k, whereas the males plateaued from \$15-30k to \$75-150k. Thus, the men are more represented among the higher income brackets. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents), which suggests that these survey workers were motivated by the 10 cent incentive because they have an income lower than the mean household income in the US.
 
-Additionally, most respondents were Sirius listeners (\frac{1345}{1739}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1739}).
+Additionally, most respondents were Sirius listeners ($\frac{1345}{1739}$) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners ($\frac{70}{1739}$).
 
 The age of listeners was concentrated around 20 to 40, and worktime was concentrated under 30 hours. These trends were similar across both genders. There are some notable outliers, like the 4 year-old respondent, a 76 year-old respondent and someone with a worktime of 108.
 
@@ -257,7 +258,7 @@ The population from which the sample is drawn determines where the results of ou
 
 Overall, the data is not very representative of the general US population.
 
-Our data is majority male (1003 male, 736 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (611), which is representative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1345}{1739}), which is not representative for the overall US population.
+Our data is majority male (1003 male, 736 female respondents), but the US population is roughly half male. Additionally, the median age is 28, but the median age in the US is 38 years-old. The most common income level is Bachelor's (611), which is representative of about 33% of the US population whose highest education level is a Bachelor's. The most common income level is \$30-50k, which is about \$20-40k lower than the US average. The average worktime is 21.0 hours, which is considerably low considering a 9-5 workweek. The vast majority of respondents were Sirius listeners ($\frac{1345}{1739}$), which is not representative for the overall US population.
 
 Data sources: https://www.nytimes.com/2023/06/22/us/census-median-age.html, https://www.census.gov/library/publications/2023/demo/p60-279.html
 
@@ -286,7 +287,7 @@ We used an Amazon MTURK survey to gather data. We then used na.omit() to clean t
 For estimation methods, we used proportional estimation to predict the total population. To estimate the total audience size in May 2014, we multiply the total number of Sirius Radio listeners (given to be 51.6 million) by $p$, where $p$ is the proportion of Wharton listeners to the total number of survey respondents. According to the data summary above, there are 1348 respondents who listen to Sirius (after filtering for NAs and outliers), only 70 of which said that they are Wharton listeners. Thus $p=\frac{70}{1345}$. So the total number of Wharton listeners equals 51.6 million times $\frac{70}{1345}$, which is 2,679,525 Wharton listeners.
 
 ### 3. Findings
-We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners (\frac{1345}{1739}) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners (\frac{70}{1739}).
+We found based on the above calculations that the estimated number of Wharton radio listeners is 2,679,525. We also found that the sample was not completely representiative of the US population or the MTURK population. Based on the visualizations, we found that the education level follows roughly a normal distribution, and the income level among females was moreso a normal distribution compared to that of the men. The mode (i.e. most commonly chosen income bracket) was \$30-50k (424 respondents). Also, most respondents were Sirius listeners ($\frac{1345}{1739}$) and the majority of the Sirius listeners are men. Almost all respondents are not Wharton listeners ($\frac{70}{1739}$).
 
 ### 4. Limitations of the study.
 
@@ -950,7 +951,7 @@ Based on the explained variance values for payroll versus the log change in payr
 ### DATA
 We used baseball.csv, which is a data set that contains information about various baseball teams’ payroll and win percentages/win number across time from 1998 to 2014.
 
-### GOAL//QUESTION
+### GOAL/QUESTION
 We want to explore the relationship between payroll and win percentage, versus seeing if analyzing this relationship is better to do when calculating the difference in payroll between years rather than the payroll of the current year itself.
 
 ### METHODS
