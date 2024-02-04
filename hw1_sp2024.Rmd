@@ -6,10 +6,6 @@ author:
 - Andrew Raine
 date: 'Due: 11:59PM,  Feb 4th, 2024'
 output:
-  pdf_document:
-    number_sections: yes
-    toc: yes
-    toc_depth: '4'
   html_document:
     code_folding: show
     highlight: haddock
@@ -18,6 +14,10 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: yes
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: '4'
   word_document:
     toc: yes
     toc_depth: '4'
@@ -26,7 +26,7 @@ urlcolor: blue
 
 
 ```{r setup, include=FALSE}
-tinytex::install_tinytex()
+# tinytex::install_tinytex()
 knitr::opts_chunk$set(echo = FALSE, results = "hide", fig.width=8, fig.height=4)
 options(scipen = 0, digits = 3)  # controls base R output
 # check if you have ISLR package, if not, install it
