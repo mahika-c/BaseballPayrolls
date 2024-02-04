@@ -6,6 +6,10 @@ author:
 - Andrew Raine
 date: 'Due: 11:59PM,  Feb 4th, 2024'
 output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: '4'
   html_document:
     code_folding: show
     highlight: haddock
@@ -14,10 +18,6 @@ output:
     toc: yes
     toc_depth: 4
     toc_float: yes
-  pdf_document:
-    number_sections: yes
-    toc: yes
-    toc_depth: '4'
   word_document:
     toc: yes
     toc_depth: '4'
@@ -26,7 +26,7 @@ urlcolor: blue
 
 
 ```{r setup, include=FALSE}
-# tinytex::install_tinytex()
+tinytex::install_tinytex()
 knitr::opts_chunk$set(echo = FALSE, results = "hide", fig.width=8, fig.height=4)
 options(scipen = 0, digits = 3)  # controls base R output
 # check if you have ISLR package, if not, install it
@@ -805,20 +805,20 @@ a). Which five teams had highest increase in their payroll between years 2010 an
 ```{r, echo = FALSE, warning=FALSE}
 top_five <- baseball %>%
   # filtering and selecting the desired data
-  filter(year %in% c(2010, 2014)) %>%
-  select(team, year, payroll) %>%
-  # reshape the data so that each row has a column for both the 2010 and 2014 payroll
-  spread(key = year, value = payroll) %>%
+  filter(year >= 2010 & year <=2014) %>%
+  # select 2010 through 2014 (inclusive)
+  select(team, year, diff_log) %>%
   # compute the payroll increase
-  mutate(payroll_increase = `2014` - `2010`) %>%
+  group_by(team) %>%
+  summarize(total_increase = sum(diff_log)) %>%
   # sort and select the top 5 largest team-payroll increases
-  arrange(desc(payroll_increase)) %>%
-  slice_max(payroll_increase, n = 5) %>%
-  select(team, payroll_increase)
+  arrange(desc(total_increase)) %>%
+  slice_max(total_increase, n = 5) %>%
+  select(team, total_increase)
 top_five
 ```
 
-The five teams with the highest increase in their payroll changes were, in descending order: Los Angeles Dodgers, Texas Rangers, Washington Nationals, Toronto Blue Jays, and San Francisco Giants.
+By computing the sum of the log increase in payroll from 2010 to 2014 (inclusive), we found the cumulative log difference in payroll increases. Using this method, we found that the five teams with the highest increase in their payroll changes were, in descending order: Los Angeles Dodgers, Washington Nationals, San Diego Padres, Texas Rangers, and San Francisco Giants.
 
 
 b). Between 2010 and 2014, inclusive, which team(s) "improved" the most? That is, had the biggest percentage gain in wins?
@@ -956,7 +956,7 @@ We want to explore the relationship between payroll and win percentage, versus s
 We use EDA to analyze the data and the summary of the variables. We also create a new table column called diff_log to analyze the difference of the log of the payroll for each year, which allows us to analyze the proportional rather than absolute difference between payrolls across the year. We also make the table long data, since that is better practice than using wide data.
 
 ### FINDINGS
-We found that the five teams with the highest payroll increase were: LA Dodgers, Texas Rangers, Washington Nationals, Toronto Blue Jays, and SF Giants. The following teams had the highest win percentage gain: Pittsburgh Pirates, Baltimore Orioles, Washington Nationals, Seattle Mariners, and Kansas City Royals. We found a positive slope for our best line fit in a scatterplot plotting win percentage against diff_log of payroll for the various teams. We also found a positive slope in the best line of fit for win percentage vs payroll.  When comparing yearly payroll vs yearly increase in payroll, we found that payroll better explained performance since it had a higher R-squared/Explained Variance factor and the data points formed a strong linear relationship, whereas the data points in the payroll increase graph formed more of a cluster-like shape.
+Using the cumulative log difference, we found that the five teams with the highest payroll increase were: Los Angeles Dodgers, Washington Nationals, San Diego Padres, Texas Rangers, and San Francisco Giants. The following teams had the highest win percentage gain: Pittsburgh Pirates, Baltimore Orioles, Washington Nationals, Seattle Mariners, and Kansas City Royals. We found a positive slope for our best line fit in a scatterplot plotting win percentage against diff_log of payroll for the various teams. We also found a positive slope in the best line of fit for win percentage vs payroll.  When comparing yearly payroll vs yearly increase in payroll, we found that payroll better explained performance since it had a higher R-squared/Explained Variance factor and the data points formed a strong linear relationship, whereas the data points in the payroll increase graph formed more of a cluster-like shape.
 
 ### LIMITATIONS
-Sometimes payroll increase doesn’t mean the same thing for all of the teams. For instance, the NY Yankees are already so good and already have so much money that an increase in some amount of money would look like a small percentage increase, whereas that same amount of money would be a larger percentage for teams with less money. Better teams probably don’t need more money to do well since they are already so good, while worse teams might not be able to be more competitive even if they did gain more money.
+Sometimes payroll increase doesn’t mean the same thing for all of the teams. For instance, the NY Yankees are already so good and already have so much money that an increase in some amount of money would look like a small percentage increase, whereas that same amount of money would be a larger percentage for teams with less money to begin with like the Pittsburgh Pirates. Better teams probably don’t need more money to do well since they are already so good, while worse teams might not be able to be more competitive even if they did gain more money.
